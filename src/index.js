@@ -1,21 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import { store } from './app/store';
-import { Provider } from 'react-redux';
-import * as serviceWorker from './serviceWorker';
+const redux = require('redux')
+const createStore = redux.createStore
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const BUY_CAKE = 'BUY_CAKE'
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// action creator
+function buyCake() {
+    return { //action
+        type: BUY_CAKE,
+        info: 'First redux action'
+    }
+}
+
+// (previousState, action) => newState
+
+const initialState = {
+    numOfCakes: 10
+}
+
+const reducer = (state = initialState, action) => {
+    switch(action.type) {
+        case BUY_CAKE: return {
+            ... state,
+            numOfCakes: state.numOfCakes - 1
+        }
+
+        default: return state
+    }
+}
+
+
+const store = createStore(reducer)
+/*output */console.log('state', store.getState())
+//const unsubscribe = store.subscribe(() => console.log('updated state', store.getState()))
+// /*output */store.dispatch(buyCake())
+// /*output */store.dispatch(buyCake())
+// /*output */store.dispatch(buyCake())
+//unsubscribe()
